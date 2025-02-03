@@ -18,13 +18,9 @@ func handlerAgg(s *state, cmd command) error {
 	return nil
 }
 
-func handlerAddFeed(s *state, cmd command) error {
+func handlerAddFeed(s *state, cmd command, user database.User) error {
 	if len(cmd.args) != 2 {
 		return fmt.Errorf("usage: %v <name> <url>", cmd.name)
-	}
-	user, err := s.db.GetUser(context.Background(), s.conf.CurrentUserName)
-	if err != nil {
-		return fmt.Errorf("couldn't find user: %w", err)
 	}
 	feed, err := s.db.CreateFeed(context.Background(), database.CreateFeedParams{
 		ID: uuid.New(),
